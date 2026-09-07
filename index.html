@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Samer Alsayegh</title>
-<meta name="description" content="Samer Alsayegh — entrepreneur and builder focused on SaaS, AI, and growth. Founder of Ezi and Draftbase. Connect on Instagram and LinkedIn.">
+<meta name="description" content="Samer Alsayegh — entrepreneur and builder focused on SaaS, AI, and growth. Founder of Ezi, an on-demand home services platform, and Draftbase, an MDX-based headless CMS. Connect on Instagram and LinkedIn.">
 <link rel="canonical" href="https://sameralsayegh.github.io/">
 
 <meta property="og:type" content="profile">
@@ -31,20 +31,32 @@
     "https://www.linkedin.com/in/sameralsayegh/",
     "https://ezi.services",
     "https://draftbase.co"
+  ],
+  "worksFor": [
+    { "@type": "Organization", "name": "Ezi", "url": "https://ezi.services" },
+    { "@type": "Organization", "name": "Draftbase", "url": "https://draftbase.co" }
   ]
 }
 </script>
 
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
-  body{-webkit-tap-highlight-color:transparent}
+  body{-webkit-tap-highlight-color:transparent; scroll-behavior:smooth}
+  .reveal{opacity:0; transform:translateY(24px)}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none}
+  }
 </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 min-h-screen flex items-center justify-center p-6">
-  <main class="w-full max-w-sm mx-auto py-10">
+<body class="bg-neutral-950 text-neutral-100">
+
+  <!-- Hero / linktree card — fully usable with zero JS, first thing an NFC scan sees -->
+  <main class="w-full max-w-sm mx-auto px-6 py-10 min-h-screen flex flex-col justify-center">
 
     <div class="flex flex-col items-center text-center mb-8">
-      <img src="profile.jpg" alt="Samer Alsayegh" class="w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-neutral-800">
+      <img src="profile.jpg" alt="Samer Alsayegh" class="w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-neutral-800" width="96" height="96">
       <h1 class="text-xl font-semibold tracking-tight">Samer Alsayegh</h1>
       <p class="text-neutral-400 text-sm mt-2 leading-relaxed">Entrepreneur and builder focused on SaaS, AI, and growth &mdash; I turn ideas into scalable businesses using technology, automation, and relentless execution.</p>
     </div>
@@ -72,7 +84,7 @@
     <!-- Product cards -->
     <a href="https://ezi.services" target="_blank" rel="noopener"
        class="group flex items-center gap-4 rounded-xl bg-neutral-900 hover:bg-neutral-800 active:scale-95 active:bg-neutral-700 transition-all duration-150 ease-out p-4 border border-neutral-800 active:border-emerald-500/50 mb-3 shadow-sm active:shadow-none">
-      <img src="https://www.google.com/s2/favicons?domain=ezi.services&sz=64" alt="Ezi logo"
+      <img src="https://www.google.com/s2/favicons?domain=ezi.services&sz=64" alt="Ezi logo" loading="lazy"
            class="w-11 h-11 shrink-0 rounded-lg bg-white p-2 object-contain transition-transform duration-150 group-active:scale-110">
       <div class="flex-1 min-w-0 text-left">
         <p class="font-semibold text-sm">Ezi</p>
@@ -83,7 +95,7 @@
 
     <a href="https://draftbase.co" target="_blank" rel="noopener"
        class="group flex items-center gap-4 rounded-xl bg-neutral-900 hover:bg-neutral-800 active:scale-95 active:bg-neutral-700 transition-all duration-150 ease-out p-4 border border-neutral-800 active:border-indigo-500/50 shadow-sm active:shadow-none">
-      <img src="https://www.google.com/s2/favicons?domain=draftbase.co&sz=64" alt="Draftbase logo"
+      <img src="https://www.google.com/s2/favicons?domain=draftbase.co&sz=64" alt="Draftbase logo" loading="lazy"
            class="w-11 h-11 shrink-0 rounded-lg bg-white p-2 object-contain transition-transform duration-150 group-active:scale-110">
       <div class="flex-1 min-w-0 text-left">
         <p class="font-semibold text-sm">Draftbase</p>
@@ -92,7 +104,67 @@
       <svg class="w-4 h-4 text-neutral-500 shrink-0 transition-transform duration-150 group-active:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
     </a>
 
-    <p class="text-center text-neutral-600 text-xs mt-10">Scan to connect</p>
+    <p class="text-center text-neutral-600 text-xs mt-10 animate-bounce">&darr; the story so far</p>
   </main>
+
+  <!-- Ezi story -->
+  <section aria-labelledby="ezi-heading" class="reveal w-full max-w-sm mx-auto px-6 py-16">
+    <img src="https://www.google.com/s2/favicons?domain=ezi.services&sz=64" alt="" loading="lazy"
+         class="w-14 h-14 rounded-xl bg-white p-2 object-contain mb-5">
+    <h2 id="ezi-heading" class="text-2xl font-bold tracking-tight mb-3">Ezi: home services, done right</h2>
+    <p class="text-neutral-400 text-sm leading-relaxed mb-4">
+      On-demand cleaning, lawn care, car detailing, snow removal, and exterior cleaning &mdash; booked online in minutes with vetted, professional providers and a satisfaction guarantee. No calls, no guesswork, just a quick booking and secure payment.
+    </p>
+    <div class="flex flex-wrap gap-2 mb-6 text-xs">
+      <span class="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1.5">&#9733; 4.8/5 &middot; 245 reviews</span>
+      <span class="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1.5">7+ cities</span>
+      <span class="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1.5">iOS &amp; Android</span>
+    </div>
+    <a href="https://ezi.services" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-2 rounded-xl bg-emerald-500 text-neutral-950 font-semibold text-sm px-5 py-3 active:scale-95 transition">
+      Book with Ezi
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </section>
+
+  <!-- Draftbase story -->
+  <section aria-labelledby="draftbase-heading" class="reveal w-full max-w-sm mx-auto px-6 py-16">
+    <img src="https://www.google.com/s2/favicons?domain=draftbase.co&sz=64" alt="" loading="lazy"
+         class="w-14 h-14 rounded-xl bg-white p-2 object-contain mb-5">
+    <h2 id="draftbase-heading" class="text-2xl font-bold tracking-tight mb-3">Draftbase: a CMS that doesn't fight your stack</h2>
+    <p class="text-neutral-400 text-sm leading-relaxed mb-4">
+      An MDX-based headless CMS for React developers. Content is stored as plain MDX and rendered straight through your existing components &mdash; no proprietary JSON, no redeploy just to fix a typo. Built for AI-agent workflows too, with MCP tools that let agents edit content safely under schema validation and full revision history.
+    </p>
+    <div class="flex flex-wrap gap-2 mb-6 text-xs">
+      <span class="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1.5">MDX-native</span>
+      <span class="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1.5">26 MCP tools</span>
+      <span class="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1.5">React &middot; Next.js &middot; Vue &middot; Astro &middot; Remix &middot; Svelte</span>
+    </div>
+    <a href="https://draftbase.co" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-2 rounded-xl bg-indigo-500 text-neutral-950 font-semibold text-sm px-5 py-3 active:scale-95 transition">
+      Explore Draftbase
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </section>
+
+  <footer class="w-full max-w-sm mx-auto px-6 pb-16 text-center">
+    <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"
+       class="text-neutral-500 text-xs underline underline-offset-4">Back to top</a>
+  </footer>
+
+  <script>
+    if (window.gsap && window.ScrollTrigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray('.reveal').forEach((el) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 80%' }
+        });
+      });
+    }
+  </script>
 </body>
 </html>
