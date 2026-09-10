@@ -427,9 +427,11 @@
       ].join('\n');
       var card = document.getElementById('phone-card');
       document.getElementById('phone-card-number').textContent = phone;
-      // no `download` attr on purpose: navigating to a vcard data URI lets iOS/Android
-      // show the native "Add Contact" sheet directly instead of a downloaded file to open later
-      card.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
+      // ponytail: Chrome blocks top-frame nav to data: URIs and force-downloads as
+      // "download.vcf" — blob URL + download attr is the hack that gets the real filename
+      var blobUrl = URL.createObjectURL(new Blob([vcard], { type: 'text/vcard' }));
+      card.href = blobUrl;
+      card.download = 'Samer Alsayegh.vcf';
       card.hidden = false;
     }
 
