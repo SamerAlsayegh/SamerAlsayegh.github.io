@@ -427,11 +427,18 @@
       ].join('\n');
       var card = document.getElementById('phone-card');
       document.getElementById('phone-card-number').textContent = phone;
-      // ponytail: Chrome blocks top-frame nav to data: URIs and force-downloads as
-      // "download.vcf" — blob URL + download attr is the hack that gets the real filename
-      var blobUrl = URL.createObjectURL(new Blob([vcard], { type: 'text/vcard' }));
-      card.href = blobUrl;
-      card.download = 'Samer Alsayegh.vcf';
+      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS reports as Mac
+      if (isIOS) {
+        // ponytail: iOS Safari shows the native one-tap "Add Contact" sheet ONLY for a bare
+        // data: URI nav — a download/blob attr breaks that and forces a Files download instead
+        card.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
+      } else {
+        // ponytail: Chrome blocks top-frame nav to data: URIs and force-downloads as
+        // "download.vcf" — blob URL + download attr is the hack that gets the real filename
+        card.href = URL.createObjectURL(new Blob([vcard], { type: 'text/vcard' }));
+        card.download = 'Samer Alsayegh.vcf';
+      }
       card.hidden = false;
     }
 
