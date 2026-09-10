@@ -427,27 +427,40 @@
       ].join('\n');
       var card = document.getElementById('phone-card');
       document.getElementById('phone-card-number').textContent = phone;
-      var vcardFile = new File([vcard], 'Samer Alsayegh.vcf', { type: 'text/vcard' });
-      if (navigator.canShare && navigator.canShare({ files: [vcardFile] })) {
-        // Web Share API w/ files: opens the native OS share sheet (Add to Contacts,
-        // Messages, AirDrop, ...) in one tap — no download step, no UA-sniffing needed
-        card.addEventListener('click', function (e) {
-          e.preventDefault();
-          navigator.share({ files: [vcardFile], title: 'Samer Alsayegh' }).catch(function () {});
-        });
+
+      // always wire up the reliable fallback href first — Web Share (below) is only ever
+      // a progressive enhancement on top of this, since Chrome's file-share MIME allowlist
+      // doesn't reliably include text/vcard and can silently no-op on some Android builds
+      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS reports as Mac
+      if (isIOS) {
+        // ponytail: iOS Safari shows the native one-tap "Add Contact" sheet ONLY for a bare
+        // data: URI nav — a download/blob attr breaks that and forces a Files download instead
+        card.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
       } else {
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS reports as Mac
-        if (isIOS) {
-          // ponytail: iOS Safari shows the native one-tap "Add Contact" sheet ONLY for a bare
-          // data: URI nav — a download/blob attr breaks that and forces a Files download instead
-          card.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
-        } else {
-          // ponytail: Chrome blocks top-frame nav to data: URIs and force-downloads as
-          // "download.vcf" — blob URL + download attr is the hack that gets the real filename
-          card.href = URL.createObjectURL(new Blob([vcard], { type: 'text/vcard' }));
-          card.download = 'Samer Alsayegh.vcf';
-        }
+        // ponytail: Chrome blocks top-frame nav to data: URIs and force-downloads as
+        // "download.vcf" — blob URL + download attr is the hack that gets the real filename
+        card.href = URL.createObjectURL(new Blob([vcard], { type: 'text/vcard' }));
+        card.download = 'Samer Alsayegh.vcf';
+      }
+
+      var vcardFile = new File([vcard], 'Samer Alsayegh.vcf', { type: 'text/vcard' });
+      var canShareFile = false;
+      try { canShareFile = navigator.canShare && navigator.canShare({ files: [vcardFile] }); } catch (e) {}
+      if (canShareFile) {
+        var shareFailed = false;
+        card.addEventListener('click', function (e) {
+          if (shareFailed) return; // let the anchor's own href/download fallback run natively
+          e.preventDefault();
+          try {
+            navigator.share({ files: [vcardFile], title: 'Samer Alsayegh' }).catch(function (err) {
+              if (!err || err.name !== 'AbortError') { shareFailed = true; card.click(); }
+            });
+          } catch (e) {
+            shareFailed = true;
+            card.click();
+          }
+        });
       }
       card.hidden = false;
     }
