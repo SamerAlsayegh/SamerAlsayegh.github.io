@@ -409,11 +409,27 @@
     // ponytail: native vCard data URI, no libs — add server-side phone lookup if ?phone needs validation later
     var phone = new URLSearchParams(location.search).get('phone');
     if (phone) {
-      var vcard = 'BEGIN:VCARD\nVERSION:3.0\nN:Alsayegh;Samer;;;\nFN:Samer Alsayegh\nTEL;TYPE=CELL:' + phone + '\nEND:VCARD';
+      if (phone.charAt(0) !== '+') phone = '+1' + phone; // ponytail: assumes NANP when no country code given
+      var vcard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Alsayegh;Samer;;;',
+        'FN:Samer Alsayegh',
+        'ORG:Tilt',
+        'TITLE:Senior Software Engineer',
+        'TEL;TYPE=CELL:' + phone,
+        'URL:https://ezi.services',
+        'URL:https://draftbase.co',
+        'URL:https://www.linkedin.com/in/sameralsayegh/',
+        'PHOTO;VALUE=URI:https://sameralsayegh.github.io/profile.jpg',
+        'NOTE:Entrepreneur and builder focused on SaaS, AI, and growth. Founder of Ezi and Draftbase.',
+        'END:VCARD'
+      ].join('\n');
       var card = document.getElementById('phone-card');
       document.getElementById('phone-card-number').textContent = phone;
+      // no `download` attr on purpose: navigating to a vcard data URI lets iOS/Android
+      // show the native "Add Contact" sheet directly instead of a downloaded file to open later
       card.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
-      card.setAttribute('download', 'Samer Alsayegh.vcf');
       card.hidden = false;
     }
 
